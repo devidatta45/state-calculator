@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "0b2fef7d-aabf-4a06-98ce-d3b026184264",
+		"name": "StateCalculator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Graph Topology",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"graph\": {\n    \"components\": [\n      {\n        \"id\": \"app\",\n        \"own_state\": \"no_data\",\n        \"derived_state\": \"no_data\",\n        \"check_states\": {\n          \"CPU load\": \"no_data\",\n          \"RAM usage\": \"no_data\"\n        },\n        \"depends_on\": [\"db\"]\n      },\n      {\n        \"id\": \"db\",\n        \"own_state\": \"no_data\",\n        \"derived_state\": \"no_data\",\n        \"check_states\": {\n          \"CPU load\": \"no_data\",\n          \"RAM usage\": \"no_data\"\n        },\n        \"dependency_of\": [\"app\"],\n        \"depends_on\": [\"hardware\"]\n      },\n      {\n        \"id\": \"hardware\",\n        \"own_state\": \"no_data\",\n        \"derived_state\": \"no_data\",\n        \"check_states\": {\n          \"CPU load\": \"no_data\",\n          \"RAM usage\": \"no_data\"\n        },\n        \"dependency_of\": [\"db\"]\n      }\n    ]\n  }\n}"
+				},
+				"url": {
+					"raw": "localhost:9000/api/topology",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"topology"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get topology",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:9000/api/topology",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"topology"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply events on component",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"events\": [\n    {\n      \"timestamp\": \"1\",\n      \"component\": \"db\",\n      \"check_state\": \"CPU load\",\n      \"state\": \"warning\"\n    },\n    {\n      \"timestamp\": \"2\",\n      \"component\": \"app\",\n      \"check_state\": \"CPU load\",\n      \"state\": \"clear\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "localhost:9000/api/events",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply another event on component",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"events\": [\n    {\n      \"timestamp\": \"3\",\n      \"component\": \"hardware\",\n      \"check_state\": \"CPU load\",\n      \"state\": \"alert\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "localhost:9000/api/events",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
